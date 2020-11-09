@@ -1,0 +1,11 @@
+﻿TOPIC
+	about_PsApim
+	
+SHORT DESCRIPTION
+	Explains how to use the PsApim powershell module
+	
+LONG DESCRIPTION
+	<Insert Content here>
+
+KEYWORDS
+	PsApim

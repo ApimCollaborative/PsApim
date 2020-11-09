@@ -43,6 +43,7 @@
 	# Functions to export from this module
 	FunctionsToExport = @(
 		'Connect-PsApim',
+		'Deploy-PsApimApi',
 		'Export-PsApimApi',
 		'Get-PsApimApi'
 	)

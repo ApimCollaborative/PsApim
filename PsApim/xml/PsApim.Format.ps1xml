@@ -27,5 +27,45 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		<View>
+			<Name>Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementApi</Name>
+			<ViewSelectedBy>
+				<TypeName>Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementApi</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Width>30</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>30</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>30</Width>
+					</TableColumnHeader>
+					<TableColumnHeader>
+						<Width>30</Width>
+					</TableColumnHeader>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>ApiId</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Path</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>ServiceUrl</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

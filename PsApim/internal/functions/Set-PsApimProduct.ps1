@@ -42,14 +42,13 @@ function Set-PsApimProduct {
                 Test-PathExists -Path $filePath -Type Leaf > $null
 
                 if (Test-PSFFunctionInterrupt) {
-                    Stop-PSFFunction -Message "The path for Product Policy file didn't exists." -StepsUpward 1
+                    Stop-PSFFunction -Message "The path for Product policy file didn't exists." -StepsUpward 1
                     return
                 }
 
                 $policyString = Get-Content -Path $filePath -Raw
                 
                 Write-PSFMessage -Level Verbose -Message "Setting the policy defined for the Product: $($productItem.ProductId)."
-                
                 Set-AzApiManagementPolicy -Context $ApimContext -ProductId $productItem.ProductId -Policy $policyString -ErrorVariable errorVar
 
                 if ($errorVar) {

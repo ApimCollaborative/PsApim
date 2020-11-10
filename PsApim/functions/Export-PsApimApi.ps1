@@ -93,7 +93,7 @@ function Export-PsApimApi {
             $operationPolicyString = Get-AzApiManagementPolicy -Context $ApimContext -ApiId $ApiId -OperationId $operationObject.OperationId
 
             if ($operationPolicyString -match 'backend-id="(.*)"') {
-                Write-PSFMessage -Level Verbose -Message "Backend is found in Policy for operation: $($operationItem.OperationId)." -Target $operationItem.OperationId
+                Write-PSFMessage -Level Verbose -Message "Backend is found in policy for operation: $($operationItem.OperationId)." -Target $operationItem.OperationId
                 # Test if operation policy is pointing toward LogicApp or Azure Function
                 $backendId = $Matches[1]
 

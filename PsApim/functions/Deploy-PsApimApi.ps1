@@ -49,15 +49,13 @@ function Deploy-PsApimApi {
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        # ."$PSScriptRoot\Set-PsApimBackend.ps1"
-        # #Arrays with single entries, doesn't produce correct array objects when piped.
         Set-PsApimBackend -ApimContext $ApimContext -Backend $apiObject.Backends -PassThru:$PassThru
 
         if (Test-PSFFunctionInterrupt) { return }
 
-        # ."$PSScriptRoot\Set-PsApimOperation.ps1"
-        # #Arrays with single entries, doesn't produce correct array objects when piped.
-        # ConvertTo-Json -InputObject $apiObject.Operations -Depth 4 | Set-PsApimOperation -ApimContext $context -ApiId $apiObject.ApiId -Path $apiFolder
+        Set-PsApimOperation -ApimContext $ApimContext -ApiId $apiObject.ApiId -Path $basePath -Operation $apiObject.Operations -PassThru:$PassThru
+
+        if (Test-PSFFunctionInterrupt) { return }
     }
     
     end {

@@ -25,6 +25,13 @@ function Set-PsApimProduct {
             Write-PSFMessage -Level Verbose -Message "Setting the Product: $($productItem.ProductId)."
             $res = New-AzApiManagementProduct -Context $ApimContext @parms
             
+            if (-not $res) {
+                $messageString = "Unable to deploy the Product: <c='em'>$($productItem.ProductId)</c>."
+                Write-PSFMessage -Level Host -Message $messageString -Target $productItem.ProductId
+                Stop-PSFFunction -Message "The request either failed or hit a time out." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
+                return
+            }
+
             if ($PassThru) { $res }
             
             if ($productItem.ProductPolicyFile) {
@@ -32,18 +39,27 @@ function Set-PsApimProduct {
 
                 $filePath = Join-PSFPath -Path $Path -Child "product.policies", $productItem.ProductPolicyFile
 
-                if (-not (Test-PathExists -Path $filePath -Type Leaf)) {
+                Test-PathExists -Path $filePath -Type Leaf > $null
+
+                if (Test-PSFFunctionInterrupt) {
+                    Stop-PSFFunction -Message "The path for Product Policy file didn't exists." -StepsUpward 1
                     return
                 }
-
-                if (Test-PSFFunctionInterrupt) { return }
 
                 $policyString = Get-Content -Path $filePath -Raw
                 
                 Write-PSFMessage -Level Verbose -Message "Setting the policy defined for the Product: $($productItem.ProductId)."
-                $res = Set-AzApiManagementPolicy -Context $ApimContext -ProductId $productItem.ProductId -Policy $policyString
                 
-                if ($PassThru) { $res }
+                Set-AzApiManagementPolicy -Context $ApimContext -ProductId $productItem.ProductId -Policy $policyString -ErrorVariable errorVar
+
+                if ($errorVar) {
+                    $messageString = "Unable to deploy the policy for the Product: <c='em'>$($productItem.ProductId)</c>."
+                    Write-PSFMessage -Level Host -Message $messageString -Target $errorVar
+                    Stop-PSFFunction -Message "The request either failed or hit a time out." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
+                    return
+                }
+
+                if ($PassThru) { $policyString }
             }
         }
     }

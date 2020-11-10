@@ -29,15 +29,17 @@ function Deploy-PsApimApi {
 
         Set-PsApimProduct -Product $apiObject.Products -Path $basePath -ApimContext $ApimContext -PassThru:$PassThru
 
+        if (Test-PSFFunctionInterrupt) { return }
+
         $apiObjectOnly = [System.Management.Automation.PSSerializer]::Deserialize([System.Management.Automation.PSSerializer]::Serialize($apiObject))
         $apiObjectOnly.PSObject.Properties.Remove('Backends')
         $apiObjectOnly.PSObject.Properties.Remove('Operations')
         $apiObjectOnly.PSObject.Properties.Remove('Products')
 
         Set-PsApimApi -Api $apiObjectOnly -Path $basePath -ApimContext $ApimContext -PassThru:$PassThru
+        
+        if (Test-PSFFunctionInterrupt) { return }
 
-        # ."$PSScriptRoot\Set-PsApimApiSchema.ps1"
-        # $apiFolder = Split-Path -Path $Path -Parent
         $apiSchemaObject = [PsCustomObject]@{
             ApiId      = $apiObject.ApiId
             SchemaId   = $apiObject.SchemaId
@@ -45,10 +47,13 @@ function Deploy-PsApimApi {
         }
         Set-PsApimApiSchema -ApimContext $ApimContext -ApiSchema $apiSchemaObject -PassThru:$PassThru
 
+        if (Test-PSFFunctionInterrupt) { return }
 
         # ."$PSScriptRoot\Set-PsApimBackend.ps1"
         # #Arrays with single entries, doesn't produce correct array objects when piped.
-        # ConvertTo-Json -InputObject $apiObject.Backends -Depth 5 | Set-PsApimBackend -ApimContext $context
+        Set-PsApimBackend -ApimContext $ApimContext -Backend $apiObject.Backends -PassThru:$PassThru
+
+        if (Test-PSFFunctionInterrupt) { return }
 
         # ."$PSScriptRoot\Set-PsApimOperation.ps1"
         # #Arrays with single entries, doesn't produce correct array objects when piped.

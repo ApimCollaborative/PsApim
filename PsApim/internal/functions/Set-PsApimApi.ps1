@@ -47,7 +47,7 @@ function Set-PsApimApi {
             if (-not $res -or $res.StatusCode -NotLike "2*") {
                 $messageString = "Unable to get the specified API: <c='em'>$($Api.ApiId)</c> via the REST API."
                 Write-PSFMessage -Level Host -Message $messageString
-                Stop-PSFFunction -Message "The API wasn't found. Please make sure that you have spelled the ApiId correct and that you're connected to the correct APIM instance." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+                Stop-PSFFunction -Message "The API wasn't found. Please make sure that you have spelled the ApiId correct and that you're connected to the correct APIM instance." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
                 return
             }
 
@@ -61,7 +61,7 @@ function Set-PsApimApi {
             if (-not $res -or $res.StatusCode -NotLike "2*") {
                 $messageString = "Unable to clear the <c='em'>ServiceUrl</c> for the specified API: <c='em'>$ApiId</c>."
                 Write-PSFMessage -Level Host -Message $messageString
-                Stop-PSFFunction -Message "The API wasn't found. Please make sure that you have spelled the ApiId correct and that you're connected to the correct APIM instance." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+                Stop-PSFFunction -Message "The API wasn't found. Please make sure that you have spelled the ApiId correct and that you're connected to the correct APIM instance." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
                 return
             }
 
@@ -82,10 +82,16 @@ function Set-PsApimApi {
             $policyString = Get-Content -Path $filePath -Raw
 
             Write-PSFMessage -Level Verbose -Message "Setting the policy defined for the Api: $($Api.ApiId)."
-            $res = Set-AzApiManagementPolicy -Context $ApimContext -ApiId $ApiId -Policy $policyString
+            Set-AzApiManagementPolicy -Context $ApimContext -ApiId $ApiId -Policy $policyString -ErrorVariable errorVar
 
-            #TODO: We might need to test the $res or fetch the policy, to be able to output it.
-            if ($PassThru) { $res }
+            if ($errorVar) {
+                $messageString = "Unable to deploy the policy for the Api: $($Api.ApiId)."
+                Write-PSFMessage -Level Host -Message $messageString -Target $errorVar
+                Stop-PSFFunction -Message "The request either failed or hit a time out." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
+                return
+            }
+
+            if ($PassThru) { $policyString }
         }
     }
     

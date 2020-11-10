@@ -31,7 +31,7 @@ function Set-PsApimApiSchema {
             $res.Content
             $messageString = "Unable to upload the schema: <c='em'>$($ApiSchema.SchemaId)</c> for the specified API: <c='em'>$($ApiSchema.ApiId)</c>."
             Write-PSFMessage -Level Host -Message $messageString -Target $res
-            Stop-PSFFunction -Message "Something went wrong when uploading the schema. Please make sure that the schema is valid." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+            Stop-PSFFunction -Message "Something went wrong when uploading the schema. Please make sure that the schema is valid." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
             return
         }
 
@@ -44,7 +44,7 @@ function Set-PsApimApiSchema {
             $res.Content
             $messageString = "Unable to fetch the schema: <c='em'>$($ApiSchema.SchemaId)</c> for the specified API: <c='em'>$($ApiSchema.ApiId)</c>."
             Write-PSFMessage -Level Host -Message $messageString
-            Stop-PSFFunction -Message "Something went wrong when getting the schema. There might be issues with the connection to Azure." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', '')))
+            Stop-PSFFunction -Message "Something went wrong when getting the schema. There might be issues with the connection to Azure." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -StepsUpward 1
             return
         }
 

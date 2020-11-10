@@ -1,3 +1,25 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Backend
+Parameter description
+
+.PARAMETER ApimContext
+Parameter description
+
+.PARAMETER PassThru
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-PsApimBackend {
     [CmdletBinding()]
     param (

@@ -1,3 +1,31 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Api
+Parameter description
+
+.PARAMETER Path
+Parameter description
+
+.PARAMETER ApimContext
+Parameter description
+
+.PARAMETER SubscriptionId
+Parameter description
+
+.PARAMETER PassThru
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-PsApimApi {
     [CmdletBinding()]
     param (

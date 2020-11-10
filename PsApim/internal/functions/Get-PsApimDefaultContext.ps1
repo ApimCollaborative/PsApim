@@ -1,3 +1,19 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ApimContext
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-PsApimDefaultContext {
     [CmdletBinding()]
     param (

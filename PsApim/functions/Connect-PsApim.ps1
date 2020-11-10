@@ -1,3 +1,28 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ResourceGroup
+Parameter description
+
+.PARAMETER ApimInstance
+Parameter description
+
+.PARAMETER ApimContext
+Parameter description
+
+.PARAMETER PushToGlobalScope
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Connect-PsApim {
     [CmdletBinding(DefaultParameterSetName = "Default")]
     param (

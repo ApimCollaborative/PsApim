@@ -1,3 +1,25 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ApiId
+Parameter description
+
+.PARAMETER Name
+Parameter description
+
+.PARAMETER ApimContext
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-PsApimApi {
     [CmdletBinding()]
     param (
@@ -17,12 +39,6 @@ function Get-PsApimApi {
         $apis = $apis | Where-Object ApiId -like "$ApiId"
 
         $apis
-
-        # foreach ($api in $apis) {
-        #     if ($api.Name -NotLike $ApiId) { continue }
-        #     $api
-        #     $obj | Select-PSFObject -TypeName D365FO.TOOLS.Azure.Blob "name", @{Name = "Size"; Expression = { [PSFSize]$_.Properties.Length } }, "IsDeleted", @{Name = "LastModified"; Expression = { [Datetime]::Parse($_.Properties.LastModified) } }
-        # }
     }
     
     end {

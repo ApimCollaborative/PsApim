@@ -1,3 +1,25 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ApiId
+Parameter description
+
+.PARAMETER Path
+Parameter description
+
+.PARAMETER ApimContext
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Export-PsApimApi {
     [CmdletBinding()]
     param (
@@ -94,7 +116,7 @@ function Export-PsApimApi {
 
             if ($operationPolicyString -match 'backend-id="(.*)"') {
                 Write-PSFMessage -Level Verbose -Message "Backend is found in policy for operation: $($operationItem.OperationId)." -Target $operationItem.OperationId
-                # Test if operation policy is pointing toward LogicApp or Azure Function
+                
                 $backendId = $Matches[1]
 
                 Write-PSFMessage -Level Verbose -Message "Getting the Backend: $backendId." -Target $backendId
@@ -106,7 +128,6 @@ function Export-PsApimApi {
                 if ($backendObj.ResourceId -like "*Microsoft.Logic*") {
                     Write-PSFMessage -Level Verbose -Message "Backend: $backendId is a LogicApp" -Target $backendObj.ResourceId
 
-                    # Test if operation / backend is LogicApp
                     $backendObj | Add-Member -MemberType NoteProperty -Name "BackendType" -Value "LogicApp"
 
                     #TODO: OperationPolicy contains named value, which is the signature key for invoking the LogicApp
@@ -119,7 +140,6 @@ function Export-PsApimApi {
                 elseif ($backendObj.ResourceId -like "*Microsoft.Web*") {
                     Write-PSFMessage -Level Verbose -Message "Backend: $backendId is a FunctionApp/Azure Function" -Target $backendObj.ResourceId
 
-                    # Test if operation / backend is Azure Function
                     $backendObj | Add-Member -MemberType NoteProperty -Name "BackendType" -Value "FunctionApp"
 
                     if ($backendObj.Credentials.Header."x-functions-key") {
@@ -142,7 +162,6 @@ function Export-PsApimApi {
                     $backendObj.Title = "$ApiId"
                 }
 
-                # $backendsHash.$backendId = $($backendObj | ConvertTo-Json -Depth 10)
                 $backendsHash.$backendId = $backendObj
             }
 

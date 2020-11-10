@@ -1,3 +1,31 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ApiId
+Parameter description
+
+.PARAMETER Path
+Parameter description
+
+.PARAMETER Operation
+Parameter description
+
+.PARAMETER ApimContext
+Parameter description
+
+.PARAMETER PassThru
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-PsApimOperation {
     [CmdletBinding()]
     param (

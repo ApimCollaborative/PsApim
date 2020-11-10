@@ -38,15 +38,12 @@ function Deploy-PsApimApi {
 
         # ."$PSScriptRoot\Set-PsApimApiSchema.ps1"
         # $apiFolder = Split-Path -Path $Path -Parent
-        # $apiSchemaObject = [PsCustomObject]@{
-        #     ApiId          = $apiObject.ApiId
-        #     SchemaId       = $apiObject.SchemaId
-        #     SchemaFile     = $(Join-Path -Path $apiFolder -ChildPath $apiObject.SchemaFile)
-        #     SubscriptionId = $subscriptionId
-        #     ResourceGroup  = $resourceGroup
-        #     ApimInstance   = $apimServiceName
-        # }
-        # ConvertTo-Json -InputObject $apiSchemaObject | Set-PsApimApiSchema -ApimContext $context
+        $apiSchemaObject = [PsCustomObject]@{
+            ApiId      = $apiObject.ApiId
+            SchemaId   = $apiObject.SchemaId
+            SchemaFile = $(Join-PSFPath -Path $basePath -Child $apiObject.SchemaFile)
+        }
+        Set-PsApimApiSchema -ApimContext $ApimContext -ApiSchema $apiSchemaObject -PassThru:$PassThru
 
 
         # ."$PSScriptRoot\Set-PsApimBackend.ps1"

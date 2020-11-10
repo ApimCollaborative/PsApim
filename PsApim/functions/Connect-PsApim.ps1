@@ -51,15 +51,18 @@ function Connect-PsApim {
     process {
         if (Test-PSFFunctionInterrupt) {
             $Script:PSDefaultParameterValues['*PsApi*:ApimContext'] = $null
+            $Script:PSDefaultParameterValues['*PsApi*:SubscriptionId'] = $null
             return
         }
 
         Write-PSFMessage -Level Verbose -Message "Setting the default parameter for ApimContext across the module."
 
         $Script:PSDefaultParameterValues['*PsApi*:ApimContext'] = $ApimContext
-
+        $Script:PSDefaultParameterValues['*PsApi*:SubscriptionId'] = (Get-AzContext).Subscription.Id
+            
         if ($PushToGlobalScope) {
             $Global:PSDefaultParameterValues['*PsApi*:ApimContext'] = $ApimContext
+            $Global:PSDefaultParameterValues['*PsApi*:SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
     }
     

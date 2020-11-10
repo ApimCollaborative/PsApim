@@ -10,6 +10,8 @@ function Set-PsApimApi {
 
         [Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementContext] $ApimContext,
 
+        [string] $SubscriptionId,
+
         [switch] $PassThru
     )
     
@@ -39,7 +41,7 @@ function Set-PsApimApi {
             Write-PSFMessage -Level Verbose -Message "Setting ServiceUrl for the Api: $($Api.ApiId) to blank."
 
             #! Hack used to keep Service Url null if needed. Part2.
-            $uri = "subscriptions/$((Get-AzContext).Subscription.Id)/resourceGroups/$($ApimContext.ResourceGroupName)/providers/Microsoft.ApiManagement/service/$($ApimContext.ServiceName)/apis/$($parms.ApiId)`?api-version=2019-12-01"
+            $uri = "subscriptions/$SubscriptionId/resourceGroups/$($ApimContext.ResourceGroupName)/providers/Microsoft.ApiManagement/service/$($ApimContext.ServiceName)/apis/$($parms.ApiId)`?api-version=2019-12-01"
             $res = Invoke-AzRestMethod -Method GET -Path $uri
             
             if (-not $res -or $res.StatusCode -NotLike "2*") {

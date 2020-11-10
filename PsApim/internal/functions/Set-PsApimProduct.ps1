@@ -2,6 +2,7 @@ function Set-PsApimProduct {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
         [PsCustomObject[]] $Product,
 
         [Parameter(Mandatory = $true)]

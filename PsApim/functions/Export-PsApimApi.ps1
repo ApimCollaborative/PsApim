@@ -41,6 +41,9 @@ function Export-PsApimApi {
 
         $schemaObj = Get-AzApiManagementApiSchema -Context $ApimContext -ApiId $ApiId
 
+        $apiObject | Add-Member -MemberType NoteProperty -Name "SchemaId" -Value $null
+        $apiObject | Add-Member -MemberType NoteProperty -Name "SchemaFile" -Value $null
+
         if ($schemaObj) {
             Write-PSFMessage -Level Verbose -Message "Getting the schema connected to the API."
 
@@ -57,8 +60,8 @@ function Export-PsApimApi {
             $apiSchemaFilePath = Join-PSFPath -Path $Path -Child "api.schema.json"
             $schemaString | Out-File -FilePath "$apiSchemaFilePath" -Encoding utf8
 
-            $apiObject | Add-Member -MemberType NoteProperty -Name "SchemaId" -Value $schemaObj.SchemaId
-            $apiObject | Add-Member -MemberType NoteProperty -Name "SchemaFile" -Value "api.schema.json"
+            $apiObject.SchemaId = $schemaObj.SchemaId
+            $apiObject.SchemaFile = "api.schema.json"
         }
 
         Write-PSFMessage -Level Verbose -Message "Getting the policy connected to the API."

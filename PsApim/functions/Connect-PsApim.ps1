@@ -1,27 +1,44 @@
 <#
 .SYNOPSIS
-Short description
+Connect to Azure API Management instance
 
 .DESCRIPTION
-Long description
+Make sure that your current PowerShell session is connected to the desired Azure API Management instance
 
 .PARAMETER ResourceGroup
-Parameter description
+Name of Resource Group where the Azure API Management instance is located
 
 .PARAMETER ApimInstance
-Parameter description
+Name of the Azure API Management instance
 
 .PARAMETER ApimContext
-Parameter description
+Context object for the desired Azure API Management instance
+
+Use it if you have it at hand when running the different functions, and to avoid using the Connect-PsApim between module loads
 
 .PARAMETER PushToGlobalScope
-Parameter description
+Instruct the function to push the default ApimContext object into the global variable (user) session, to have the object survive module loads
 
 .EXAMPLE
-An example
+PS C:\> Connect-PsApim -ResourceGroup "rg-test" -ApimInstance "api-test-001"
+
+This will connect to the APIM instance called "api-test-001", which is located in the "rg-test" resource group.
+
+.EXAMPLE
+PS C:\> Connect-PsApim -ResourceGroup "rg-test" -ApimInstance "api-test-001" -PushToGlobalScope
+
+This will connect to the APIM instance called "api-test-001", which is located in the "rg-test" resource group.
+The ApimContext will be pushed into the $Global:PSDefaultParameterValues object.
 
 .NOTES
-General notes
+The entire module requires that you already have an connection / session using the Connect-AzAccount, and set the AzContext to point to the appropriate subscription.
+
+PS C:\> Connect-AzAccount -Subscription $subscriptionId
+PS C:\> Set-AzContext -Subscription $subscriptionId
+PS C:\> Connect-PsApim -ResourceGroup "rg-test" -ApimInstance "api-test-001"
+
+Author: Mötz Jensen (@Splaxi)
+
 #>
 function Connect-PsApim {
     [CmdletBinding(DefaultParameterSetName = "Default")]

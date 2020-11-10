@@ -63,7 +63,7 @@ function Set-PsApimApi {
                 return
             }
 
-            if ($PassThru) { $res }
+            if ($PassThru) { $res.Content }
         }
 
         if ($api.ApiPolicyFile) {
@@ -82,7 +82,7 @@ function Set-PsApimApi {
             Write-PSFMessage -Level Verbose -Message "Setting the policy defined for the Api: $($Api.ApiId)."
             $res = Set-AzApiManagementPolicy -Context $ApimContext -ApiId $ApiId -Policy $policyString
 
-            #TODO: We might need to test the $res
+            #TODO: We might need to test the $res or fetch the policy, to be able to output it.
             if ($PassThru) { $res }
         }
     }
